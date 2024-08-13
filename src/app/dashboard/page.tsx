@@ -1,128 +1,67 @@
 "use client"
 
-import { SignedIn, useUser, useSession } from "@clerk/nextjs"
+import { SignedIn, useUser, useSession, UserButton } from "@clerk/nextjs"
 import { motion } from "framer-motion"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { getCollectionsForUser } from "@/utils/firebaseFunctions"
 
 const Dashboard = () => {
   const { user } = useUser()
   const { session } = useSession()
   const router = useRouter()
 
-  const flashcards = [
-    {
-      title: "HTML Basics",
-      content: "HTML stands for HyperText Markup Language.",
-    },
-    {
-      title: "CSS Selectors",
-      content:
-        "CSS selectors are used to select elements based on their attributes.",
-    },
-    {
-      title: "JavaScript Functions",
-      content:
-        "Functions are blocks of code designed to perform a particular task.",
-    },
-    {
-      title: "React Components",
-      content:
-        "Components let you split the UI into independent, reusable pieces.",
-    },
-    {
-      title: "Firebase Authentication",
-      content: "Firebase provides backend services for easy authentication.",
-    },
-  ]
-  const collections = [
-    {
-      name: "Web Development",
-      flashcards: [
-        {
-          title: "HTML Basics",
-          content: "HTML stands for HyperText Markup Language.",
-        },
-        {
-          title: "CSS Selectors",
-          content:
-            "CSS selectors are used to select elements based on their attributes.",
-        },
-        {
-          title: "JavaScript Functions",
-          content:
-            "Functions are blocks of code designed to perform a particular task.",
-        },
-      ],
-    },
-    {
-      name: "Frontend Frameworks",
-      flashcards: [
-        {
-          title: "React Components",
-          content:
-            "Components let you split the UI into independent, reusable pieces.",
-        },
-        {
-          title: "State Management in React",
-          content: "State management is crucial for building dynamic web apps.",
-        },
-      ],
-    },
-    {
-      name: "Backend Services",
-      flashcards: [
-        {
-          title: "Firebase Authentication",
-          content:
-            "Firebase provides backend services for easy authentication.",
-        },
-        {
-          title: "Firestore Database",
-          content:
-            "Firestore is a NoSQL document database built for global apps.",
-        },
-      ],
-    },
-  ]
+  const [collections, setCollections] = useState<any[]>([])
+
+  useEffect(() => {
+    const fetchCollections = async () => {
+      if (user) {
+        const userCollections = await getCollectionsForUser(user.id)
+        setCollections(userCollections)
+      }
+    }
+
+    fetchCollections()
+  }, [user])
 
   const maxFlashcards = 50
   const maxCollections = 5
-  const maxFlashcardsPerCollection = 10
 
-  const remainingFlashcards = maxFlashcards - flashcards.length
+  const totalFlashcards = collections.reduce(
+    (total, collection) => total + collection.flashcards.length,
+    0
+  )
+  const remainingFlashcards = maxFlashcards - totalFlashcards
   const remainingCollections = maxCollections - collections.length
+
+  const isButtonDisabled =
+    (remainingFlashcards <= 0) || (collections.length >= maxCollections)
 
   return (
     <>
       <SignedIn>
-        <div className="flex flex-col min-h-screen bg-gray-900 p-6">
+        <div className="flex flex-col min-h-screen bg-gray-900 text-white p-6">
           <header className="flex justify-between items-center w-full mb-8">
             <h1 className="text-4xl font-bold text-blue-400">Dashboard</h1>
             <div className="flex space-x-4">
-              <motion.button
-                whileHover={{
-                  scale: 1.1,
-                  backgroundColor:
-                    remainingFlashcards > 0 ? "#68D391" : "#A0AEC0",
-                }}
-                whileTap={{ scale: 0.9 }}
+              <Link
+                href={isButtonDisabled ? "#" : "/create-flashcard"}
                 className={`px-4 py-2 rounded-lg text-white font-semibold transition duration-200 ${
-                  remainingFlashcards > 0
+                  !isButtonDisabled
                     ? "bg-green-500 hover:bg-green-600"
                     : "bg-gray-500 cursor-not-allowed"
                 }`}
-                disabled={remainingFlashcards <= 0}
+                aria-disabled={isButtonDisabled}
               >
-                <Link href="/create-flashcard">Create New Flashcard</Link>
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.1, backgroundColor: "#63B3ED" }}
-                whileTap={{ scale: 0.9 }}
-                className="px-4 py-2 rounded-lg bg-blue-400 text-white font-semibold transition duration-200 hover:bg-blue-500"
-              >
+                Create New Flashcard
+              </Link>
+
+              <button className="px-4 py-2 rounded-lg bg-blue-400 text-white font-semibold transition duration-200 hover:bg-blue-500">
                 <Link href="/my-subscription">My Subscription</Link>
+              </button>
+              <motion.button>
+                <UserButton />
               </motion.button>
             </div>
           </header>
@@ -132,13 +71,23 @@ const Dashboard = () => {
               initial={{ opacity: 0, x: -100 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-lg"
+              className="text-lg mb-4"
             >
               Welcome, {user?.firstName}!
             </motion.div>
+            <div className="flex justify-between text-sm text-gray-400">
+              <div>
+                <p>Total Flashcards: {totalFlashcards}</p>
+                <p>Remaining Flashcards: {remainingFlashcards}</p>
+              </div>
+              <div>
+                <p>Total Collections: {collections.length}</p>
+                <p>Remaining Collections: {remainingCollections}</p>
+              </div>
+            </div>
           </section>
 
-          <section className="text-white w-full">
+          <section className="w-full">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
@@ -149,7 +98,7 @@ const Dashboard = () => {
                 Your Flashcards
               </h2>
               {collections.length > 0 ? (
-                collections.map((collection, index) => (
+                collections.map((collection: any, index: number) => (
                   <div key={index} className="mb-4">
                     <h3 className="text-xl font-semibold text-blue-400">
                       {collection.name}
@@ -186,8 +135,13 @@ const Dashboard = () => {
       {!session && (
         <div className="flex flex-row items-center justify-center min-h-screen bg-black text-white cursor-default">
           Please{" "}
-          <button onClick={() => router.push("/sign-in")} className="bg-white text-black m-2 rounded-md">&nbsp; Sign-In &nbsp;</button> to
-          access this page
+          <button
+            onClick={() => router.push("/sign-in")}
+            className="bg-white text-black m-2 rounded-md"
+          >
+            &nbsp; Sign-In &nbsp;
+          </button>{" "}
+          to access this page
         </div>
       )}
     </>

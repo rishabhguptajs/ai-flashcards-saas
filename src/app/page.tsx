@@ -1,20 +1,17 @@
 "use client"
 
-import { useEffect } from "react"
-import { useUser, UserProfile, UserButton } from "@clerk/nextjs"
+import { useUser, UserButton } from "@clerk/nextjs"
 import Link from "next/link"
 import { FaCheckCircle } from "react-icons/fa"
 import { ImCross } from "react-icons/im"
 
 const Home = () => {
-  const { isSignedIn, user } = useUser()
-
-  useEffect(() => {}, [])
+  const { isSignedIn } = useUser()
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 mx-6">
       <header className="bg-white w-full">
-        <nav className="max-w-7xl mx-auto my-4 bg-slate-800 rounded-lg px-4 py-6 flex justify-between items-center">
+        <nav className="max-w-7xl mx-auto my-3 bg-slate-800 rounded-lg px-4 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-blue-400">Flashcard AI</h1>
           <div>
             {isSignedIn ? (
