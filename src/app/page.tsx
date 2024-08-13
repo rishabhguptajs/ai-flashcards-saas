@@ -1,9 +1,10 @@
 "use client"
 
 import { useEffect } from "react"
-import { useUser } from "@clerk/nextjs"
+import { useUser, UserProfile, UserButton } from "@clerk/nextjs"
 import Link from "next/link"
-import { FaCheckCircle } from "react-icons/fa" // Import the checkmark icon
+import { FaCheckCircle } from "react-icons/fa"
+import { ImCross } from "react-icons/im"
 
 const Home = () => {
   const { isSignedIn, user } = useUser()
@@ -17,9 +18,17 @@ const Home = () => {
           <h1 className="text-2xl font-bold text-blue-400">Flashcard AI</h1>
           <div>
             {isSignedIn ? (
-              <Link href="/create" className="text-blue-400 hover:underline">
-                Create Flashcards
-              </Link>
+              <div className="flex align-middle items-center justify-center gap-2">
+                <Link
+                  href="/dashboard"
+                  className="text-blue-600 bg-white p-2  rounded-lg"
+                >
+                  Create Flashcards
+                </Link>
+                <span>
+                  <UserButton />
+                </span>
+              </div>
             ) : (
               <Link href="/sign-in" className="text-blue-600 hover:underline">
                 Sign In
@@ -40,7 +49,7 @@ const Home = () => {
 
         <div className="mt-6">
           {isSignedIn ? (
-            <Link href="/create">
+            <Link href="/dashboard">
               <button className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition duration-200">
                 Start Creating
               </button>
@@ -94,8 +103,8 @@ const Home = () => {
                     <span>AI Flashcard Generation</span>
                   </li>
                   <li className="flex items-center text-white">
-                    <FaCheckCircle className="text-green-400 mr-2" />
-                    <span>No Premium support</span>
+                    <ImCross className="text-red-500 mr-2" />
+                    <span>No Priority support</span>
                   </li>
                 </ul>
               </p>
@@ -121,7 +130,7 @@ const Home = () => {
                   </li>
                   <li className="flex items-center text-white">
                     <FaCheckCircle className="text-green-400 mr-2" />
-                    <span>Premium support</span>
+                    <span>Priority support</span>
                   </li>
                 </ul>
               </p>
@@ -129,15 +138,15 @@ const Home = () => {
           </div>
         </section>
 
-        <section className="max-w-7xl mt-10 px-6 text-center">
+        <section className="max-w-7xl mt-10 mb-10 px-6 text-center">
           <h3 className="text-4xl font-semibold text-white">Contact Us</h3>
           <p className="mt-4 text-lg max-w-md mx-auto text-white">
             Have questions or feedback? Reach out to us at{" "}
             <a
-              href="mailto:support@flashcardai.com"
+              href="mailto:rishabhgupta4523@gmail.com"
               className="text-blue-400 hover:underline"
             >
-              support@flashcardai.com
+              rishabhgupta4523@gmail.com
             </a>
             . We're here to help!
           </p>

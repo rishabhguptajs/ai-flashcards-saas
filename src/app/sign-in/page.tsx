@@ -7,7 +7,7 @@ export default function Home() {
 
   return (
     <div className="flex items-center justify-center w-screen h-screen bg-black">
-      <SignIn />
+      <SignIn fallbackRedirectUrl={'/dashboard'} />
     </div>
   );
 }
