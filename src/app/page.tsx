@@ -1,113 +1,156 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import { useEffect } from "react"
+import { useUser } from "@clerk/nextjs"
+import Link from "next/link"
+import { FaCheckCircle } from "react-icons/fa" // Import the checkmark icon
+
+const Home = () => {
+  const { isSignedIn, user } = useUser()
+
+  useEffect(() => {}, [])
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 mx-6">
+      <header className="bg-white w-full">
+        <nav className="max-w-7xl mx-auto my-4 bg-slate-800 rounded-lg px-4 py-6 flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-blue-400">Flashcard AI</h1>
+          <div>
+            {isSignedIn ? (
+              <Link href="/create" className="text-blue-400 hover:underline">
+                Create Flashcards
+              </Link>
+            ) : (
+              <Link href="/sign-in" className="text-blue-600 hover:underline">
+                Sign In
+              </Link>
+            )}
+          </div>
+        </nav>
+      </header>
+
+      <main className="flex flex-col items-center justify-center mt-10 flex-grow text-center">
+        <h2 className="text-3xl font-semibold text-white">
+          Generate Flashcards Effortlessly
+        </h2>
+        <p className="mt-4 text-lg max-w-md text-white">
+          Use our AI-powered tool to create flashcards from your notes and study
+          materials in seconds!
         </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+
+        <div className="mt-6">
+          {isSignedIn ? (
+            <Link href="/create">
+              <button className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition duration-200">
+                Start Creating
+              </button>
+            </Link>
+          ) : (
+            <Link href="/sign-up">
+              <button className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition duration-200">
+                Get Started
+              </button>
+            </Link>
+          )}
         </div>
-      </div>
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+        <section className="max-w-7xl mt-10 px-6 text-center">
+          <h3 className="text-4xl font-semibold text-white">Features</h3>
+          <ul className="mt-6 space-y-4 text-left max-w-2xl mx-auto">
+            <li className="flex items-center text-white">
+              <FaCheckCircle className="text-green-400 mr-2" />
+              <span>
+                Create flashcards in seconds with our AI-powered tool.
+              </span>
+            </li>
+            <li className="flex items-center text-white">
+              <FaCheckCircle className="text-green-400 mr-2" />
+              <span>Study more effectively with our flashcards.</span>
+            </li>
+            <li className="flex items-center text-white">
+              <FaCheckCircle className="text-green-400 mr-2" />
+              <span>Customize your flashcards to suit your study needs.</span>
+            </li>
+          </ul>
+        </section>
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
+        <section className="max-w-7xl mt-10 px-6 text-center">
+          <h3 className="text-4xl font-semibold text-white">Pricing</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mt-6 mx-auto">
+            <div className="bg-slate-800 rounded-lg p-6 text-center">
+              <h4 className="text-xl font-semibold text-white">Free Plan</h4>
+              <p className="mt-4 text-white">
+                <ul className="space-y-4 text-left max-w-md mx-auto">
+                  <li className="flex items-center text-white">
+                    <FaCheckCircle className="text-green-400 mr-2" />
+                    <span>Upto 50 monthly flashcards generation</span>
+                  </li>
+                  <li className="flex items-center text-white">
+                    <FaCheckCircle className="text-green-400 mr-2" />
+                    <span>5 Collections</span>
+                  </li>
+                  <li className="flex items-center text-white">
+                    <FaCheckCircle className="text-green-400 mr-2" />
+                    <span>AI Flashcard Generation</span>
+                  </li>
+                  <li className="flex items-center text-white">
+                    <FaCheckCircle className="text-green-400 mr-2" />
+                    <span>No Premium support</span>
+                  </li>
+                </ul>
+              </p>
+            </div>
+            <div className="bg-slate-800 rounded-lg p-6 text-center">
+              <h4 className="font-semibold text-white">
+                <span className="font-xl">Pro Plan</span> <br />
+                <span className="text-sm">$29/year</span>
+              </h4>
+              <p className="mt-4 text-white">
+                <ul className="space-y-4 text-left max-w-md mx-auto">
+                  <li className="flex items-center text-white">
+                    <FaCheckCircle className="text-green-400 mr-2" />
+                    <span>Unlimited flashcards</span>
+                  </li>
+                  <li className="flex items-center text-white">
+                    <FaCheckCircle className="text-green-400 mr-2" />
+                    <span>Advanced features</span>
+                  </li>
+                  <li className="flex items-center text-white">
+                    <FaCheckCircle className="text-green-400 mr-2" />
+                    <span>No ads</span>
+                  </li>
+                  <li className="flex items-center text-white">
+                    <FaCheckCircle className="text-green-400 mr-2" />
+                    <span>Premium support</span>
+                  </li>
+                </ul>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="max-w-7xl mt-10 px-6 text-center">
+          <h3 className="text-4xl font-semibold text-white">Contact Us</h3>
+          <p className="mt-4 text-lg max-w-md mx-auto text-white">
+            Have questions or feedback? Reach out to us at{" "}
+            <a
+              href="mailto:support@flashcardai.com"
+              className="text-blue-400 hover:underline"
+            >
+              support@flashcardai.com
+            </a>
+            . We're here to help!
           </p>
-        </a>
+        </section>
+      </main>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+      <footer className="text-center my-2">
+        <p className="text-gray-600">
+          &copy; {new Date().getFullYear()} Flashcard AI. All rights reserved.
+        </p>
+      </footer>
+    </div>
+  )
 }
+
+export default Home
