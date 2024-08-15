@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { useUser, UserButton } from "@clerk/nextjs"
-import Link from "next/link"
-import { FaCheckCircle } from "react-icons/fa"
-import { ImCross } from "react-icons/im"
+import { useUser, UserButton } from "@clerk/nextjs";
+import Link from "next/link";
+import { FaCheckCircle } from "react-icons/fa";
+import { ImCross } from "react-icons/im";
 
 const Home = () => {
-  const { isSignedIn } = useUser()
+  const { isSignedIn } = useUser();
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 mx-6">
@@ -14,30 +14,21 @@ const Home = () => {
         <nav className="max-w-7xl mx-auto my-3 bg-slate-800 rounded-lg px-4 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-blue-400">Flashcard AI</h1>
           <div>
-            <Link
-              href="/pricing"
-              className="text-blue-600 hover:underline mr-4"
-            >
+            <Link href="/pricing" className="text-blue-600 hover:underline mr-4">
               Pricing
             </Link>
-            <Link
-              href="/tos"
-              className="text-blue-600 hover:underline mr-4"
-            >
+            <Link href="/tos" className="text-blue-600 hover:underline mr-4">
               Terms of Service
             </Link>
-            <Link
-              href="/refund-policy"
-              className="text-blue-600 hover:underline mr-4"
-            >
+            <Link href="/refund-policy" className="text-blue-600 hover:underline mr-4">
               Refund Policy
+            </Link>
+            <Link href="/privacy-policy" className="text-blue-600 hover:underline mr-4">
+              Privacy Policy
             </Link>
             {isSignedIn ? (
               <div className="flex align-middle items-center justify-center gap-2">
-                <Link
-                  href="/dashboard"
-                  className="text-blue-600 bg-white p-2  rounded-lg"
-                >
+                <Link href="/dashboard" className="text-blue-600 bg-white p-2 rounded-lg">
                   Create Flashcards
                 </Link>
                 <span>
@@ -58,8 +49,7 @@ const Home = () => {
           Generate Flashcards Effortlessly
         </h2>
         <p className="mt-4 text-lg max-w-md text-white">
-          Use our AI-powered tool to create flashcards from your notes and study
-          materials in seconds!
+          Use our AI-powered tool to create flashcards from your notes and study materials in seconds!
         </p>
 
         <div className="mt-6">
@@ -83,9 +73,7 @@ const Home = () => {
           <ul className="mt-6 space-y-4 text-left max-w-2xl mx-auto">
             <li className="flex items-center text-white">
               <FaCheckCircle className="text-green-400 mr-2" />
-              <span>
-                Create flashcards in seconds with our AI-powered tool.
-              </span>
+              <span>Create flashcards in seconds with our AI-powered tool.</span>
             </li>
             <li className="flex items-center text-white">
               <FaCheckCircle className="text-green-400 mr-2" />
@@ -157,10 +145,7 @@ const Home = () => {
           <h3 className="text-4xl font-semibold text-white">Contact Us</h3>
           <p className="mt-4 text-lg max-w-md mx-auto text-white">
             Have questions or feedback? Reach out to us at{" "}
-            <a
-              href="mailto:rishabhgupta4523@gmail.com"
-              className="text-blue-400 hover:underline"
-            >
+            <a href="mailto:rishabhgupta4523@gmail.com" className="text-blue-400 hover:underline">
               rishabhgupta4523@gmail.com
             </a>
             . We're here to help!
@@ -174,7 +159,7 @@ const Home = () => {
         </p>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
