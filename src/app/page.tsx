@@ -14,6 +14,24 @@ const Home = () => {
         <nav className="max-w-7xl mx-auto my-3 bg-slate-800 rounded-lg px-4 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-blue-400">Flashcard AI</h1>
           <div>
+            <Link
+              href="/pricing"
+              className="text-blue-600 hover:underline mr-4"
+            >
+              Pricing
+            </Link>
+            <Link
+              href="/tos"
+              className="text-blue-600 hover:underline mr-4"
+            >
+              Terms of Service
+            </Link>
+            <Link
+              href="/refund-policy"
+              className="text-blue-600 hover:underline mr-4"
+            >
+              Refund Policy
+            </Link>
             {isSignedIn ? (
               <div className="flex align-middle items-center justify-center gap-2">
                 <Link
