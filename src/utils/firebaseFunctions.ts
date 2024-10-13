@@ -1,4 +1,4 @@
-import { collection, addDoc, getDocs, query, where, DocumentData } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, where, DocumentData, deleteDoc, doc } from "firebase/firestore";
 import { db } from "./firebaseConfig";
 
 interface Flashcard {
@@ -36,6 +36,16 @@ export const getCollectionsForUser = async (userId: string): Promise<DocumentDat
   } catch (e) {
     console.error("Error fetching collections: ", e);
     return [];
+  }
+};
+
+export const deleteCollectionForUser = async (userId: string, collectionId: string) => {
+  try {
+    const collectionRef = doc(db, "users", userId, "collections", collectionId);
+    await deleteDoc(collectionRef);
+    console.log("Collection deleted successfully");
+  } catch (e) {
+    console.error("Error deleting collection: ", e);
   }
 };
 
