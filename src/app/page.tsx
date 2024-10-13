@@ -9,34 +9,34 @@ const Home = () => {
   const { isSignedIn } = useUser();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 mx-6">
-      <header className="bg-white w-full">
-        <nav className="max-w-7xl mx-auto my-3 bg-slate-800 rounded-lg px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-blue-400">Flashcard AI</h1>
-          <div>
-            <Link href="/pricing" className="text-blue-600 hover:underline mr-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 mx-2">
+      <header className="w-full bg-white">
+        <nav className="max-w-7xl mx-auto my-3 bg-slate-800 rounded-lg px-4 py-4 flex flex-col md:flex-row justify-between items-center">
+          <h1 className="text-2xl font-bold text-blue-400 mb-2 md:mb-0">Flashcard AI</h1>
+          <div className="flex flex-col md:flex-row items-center">
+            <Link href="/pricing" className="text-blue-600 hover:underline mr-0 md:mr-4 mb-2 md:mb-0">
               Pricing
             </Link>
-            <Link href="/tos" className="text-blue-600 hover:underline mr-4">
+            <Link href="/tos" className="text-blue-600 hover:underline mr-0 md:mr-4 mb-2 md:mb-0">
               Terms of Service
             </Link>
-            <Link href="/refund-policy" className="text-blue-600 hover:underline mr-4">
+            <Link href="/refund-policy" className="text-blue-600 hover:underline mr-0 md:mr-4 mb-2 md:mb-0">
               Refund Policy
             </Link>
-            <Link href="/privacy-policy" className="text-blue-600 hover:underline mr-4">
+            <Link href="/privacy-policy" className="text-blue-600 hover:underline mr-0 md:mr-4 mb-2 md:mb-0">
               Privacy Policy
             </Link>
             {isSignedIn ? (
               <div className="flex align-middle items-center justify-center gap-2">
                 <Link href="/dashboard" className="text-blue-600 bg-white p-2 rounded-lg">
-                  Create Flashcards
+                  Dashboard
                 </Link>
                 <span>
                   <UserButton />
                 </span>
               </div>
             ) : (
-              <Link href="/sign-in" className="text-blue-600 hover:underline">
+              <Link href="/signin" className="text-blue-600 hover:underline">
                 Sign In
               </Link>
             )}
@@ -48,9 +48,9 @@ const Home = () => {
         <h2 className="text-3xl font-semibold text-white">
           Generate Flashcards Effortlessly
         </h2>
-        <p className="mt-4 text-lg max-w-md text-white">
+        <div className="mt-4 text-lg max-w-md text-white">
           Use our AI-powered tool to create flashcards from your notes and study materials in seconds!
-        </p>
+        </div>
 
         <div className="mt-6">
           {isSignedIn ? (
@@ -91,7 +91,7 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mt-6 mx-auto">
             <div className="bg-slate-800 rounded-lg p-6 text-center">
               <h4 className="text-xl font-semibold text-white">Free Plan</h4>
-              <p className="mt-4 text-white">
+              <div className="mt-4 text-white">
                 <ul className="space-y-4 text-left max-w-md mx-auto">
                   <li className="flex items-center text-white">
                     <FaCheckCircle className="text-green-400 mr-2" />
@@ -110,14 +110,14 @@ const Home = () => {
                     <span>No Priority support</span>
                   </li>
                 </ul>
-              </p>
+              </div>
             </div>
             <div className="bg-slate-800 rounded-lg p-6 text-center">
               <h4 className="font-semibold text-white">
                 <span className="font-xl">Pro Plan</span> <br />
                 <span className="text-sm">$29/year</span>
               </h4>
-              <p className="mt-4 text-white">
+              <div className="mt-4 text-white">
                 <ul className="space-y-4 text-left max-w-md mx-auto">
                   <li className="flex items-center text-white">
                     <FaCheckCircle className="text-green-400 mr-2" />
@@ -136,7 +136,7 @@ const Home = () => {
                     <span>Priority support</span>
                   </li>
                 </ul>
-              </p>
+              </div>
             </div>
           </div>
         </section>
