@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import React, { useEffect, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { getCollectionsForUser } from "@/utils/firebaseFunctions"
+import { getCollectionsForUser, deleteCollectionForUser } from "@/utils/firebaseFunctions"
 
 const Dashboard = () => {
   const { user } = useUser()
@@ -38,10 +38,17 @@ const Dashboard = () => {
   const isButtonDisabled =
     (remainingFlashcards <= 0) || (collections.length >= maxCollections)
 
+  const handleDeleteCollection = async (collectionId: string) => {
+    if (user) {
+      await deleteCollectionForUser(user.id, collectionId)
+      setCollections(collections.filter(collection => collection.id !== collectionId))
+    }
+  }
+
   return (
     <>
       <SignedIn>
-        <div className="flex flex-col min-h-screen bg-gray-900 text-white p-6">
+        <div className="flex flex-col min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white p-6">
           <header className="flex justify-between items-center w-full mb-8">
             <h1 className="text-4xl font-bold text-blue-400">Dashboard</h1>
             <div className="flex space-x-4">
@@ -92,33 +99,39 @@ const Dashboard = () => {
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="bg-slate-800 p-6 rounded-lg"
+              className="bg-slate-800 p-6 rounded-lg shadow-lg"
             >
               <h2 className="text-2xl font-semibold mb-4 text-orange-400">
                 Your Flashcards
               </h2>
               {collections.length > 0 ? (
-                collections.map((collection: any, index: number) => (
-                  <div key={index} className="mb-4">
-                    <h3 className="text-xl font-semibold text-blue-400">
-                      {collection.name}
-                    </h3>
+                collections.map((collection: any) => (
+                  <div key={collection.id} className="mb-4 border-b border-gray-600 pb-4">
+                    <div className="flex justify-between items-center">
+                      <h3 className="text-xl font-semibold text-blue-400">
+                        {collection.name}
+                      </h3>
+                      <button
+                        onClick={() => handleDeleteCollection(collection.id)}
+                        className="text-red-500 hover:text-red-700 transition duration-200"
+                      >
+                        Delete
+                      </button>
+                    </div>
                     <p>{collection.flashcards.length} flashcards</p>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-                      {collection.flashcards.map(
-                        (flashcard: any, idx: number) => (
-                          <motion.div
-                            key={idx}
-                            whileHover={{ scale: 1.05 }}
-                            className="p-4 bg-gray-700 rounded-lg"
-                          >
-                            <h4 className="text-lg font-semibold">
-                              {flashcard.title}
-                            </h4>
-                            <p>{flashcard.content}</p>
-                          </motion.div>
-                        )
-                      )}
+                      {collection.flashcards.map((flashcard: any, idx: number) => (
+                        <motion.div
+                          key={idx}
+                          whileHover={{ scale: 1.05 }}
+                          className="p-4 bg-gray-700 rounded-lg shadow-md"
+                        >
+                          <h4 className="text-lg font-semibold">
+                            {flashcard.title}
+                          </h4>
+                          <p>{flashcard.content}</p>
+                        </motion.div>
+                      ))}
                     </div>
                   </div>
                 ))
@@ -136,7 +149,7 @@ const Dashboard = () => {
         <div className="flex flex-row items-center justify-center min-h-screen bg-black text-white cursor-default">
           Please{" "}
           <button
-            onClick={() => router.push("/sign-in")}
+            onClick={() => router.push("/signin")}
             className="bg-white text-black m-2 rounded-md"
           >
             &nbsp; Sign-In &nbsp;
